@@ -1,0 +1,46 @@
+/*
+ * stm32f446xx_spi_driver.h
+ *
+ *  Created on: 06-Feb-2026
+ *      Author: dayanand
+ */
+
+#ifndef INC_STM32F446XX_SPI_DRIVER_H_
+#define INC_STM32F446XX_SPI_DRIVER_H_
+
+#include "stm32f446xx.h"
+
+typedef struct
+{
+	uint8_t SPI_DeviceMode;					/* Defines the mode of SPI @SPI_MODES */
+	uint8_t SPI_BusConfig;					/* Bus Configuration for SPI @SPI_BUSCONFIGURE */
+	uint8_t SPI_SclkSpeed;					/* Serial Clock Speed for SPI @SPI_SCLKSPEED */
+	uint8_t SPI_DFF;						/*  */
+	uint8_t CPOL;							/* Set the Clock polarity @SPI_CPOL */
+	uint8_t CPHA;							/* Set the Clock polarity @SPI_CPHA */
+	uint8_t SSM;							/*  */
+}SPI_Config_t;
+
+
+typedef struct
+{
+	SPI_RegDef_t *pSPIx;
+	SPI_Config_t SPI_Config;
+}SPI_Handle_t;
+
+
+void SPI_InIt(SPI_Handle_t *pSPIx);
+void SPI_DeInIt(SPI_RegDef_t *pSPIx);
+
+void SPI_PClockControl(SPI_RegDef_t *pSPIx, uint8_t enordis);
+
+void SPI_DataSend(SPI_RegDef_t *pSPIx, uint8_t *pTxBuffer, uint8_t len);
+void SPI_DataRecieve(SPI_RegDef_t *pSPIx, uint8_t *pRxBuffer, uint8_t len);
+
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t enordi);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint8_t enordi);
+void SPI_IRQHandling(uint8_t PinNumber);
+
+
+
+#endif /* INC_STM32F446XX_SPI_DRIVER_H_ */

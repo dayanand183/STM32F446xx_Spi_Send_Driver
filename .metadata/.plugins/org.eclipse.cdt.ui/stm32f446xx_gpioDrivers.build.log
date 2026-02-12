@@ -1,0 +1,35 @@
+14:35:05 **** Incremental Build of configuration Debug for project stm32f446xx_gpioDrivers ****
+make -j8 all 
+Building file: ../src/main.c
+Building file: ../Drivers/src/stm32f446xx_gpio_driver.c
+Building file: ../Drivers/src/stm32f446xx_spi_driver.c
+Invoking: MCU GCC Compiler
+Invoking: MCU GCC Compiler
+Invoking: MCU GCC Compiler
+D:\Controllers\2026\STM32\Drivers\Gpio2\stm32f446xx_gpioDrivers\Debug
+D:\Controllers\2026\STM32\Drivers\Gpio2\stm32f446xx_gpioDrivers\Debug
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DDEBUG -I"D:/Controllers/2026/STM32/Drivers/Gpio2/stm32f446xx_gpioDrivers/Drivers/inc" -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"src/main.d" -MT"src/main.o" -o "src/main.o" "../src/main.c"
+D:\Controllers\2026\STM32\Drivers\Gpio2\stm32f446xx_gpioDrivers\Debug
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DDEBUG -I"D:/Controllers/2026/STM32/Drivers/Gpio2/stm32f446xx_gpioDrivers/Drivers/inc" -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"Drivers/src/stm32f446xx_gpio_driver.d" -MT"Drivers/src/stm32f446xx_gpio_driver.o" -o "Drivers/src/stm32f446xx_gpio_driver.o" "../Drivers/src/stm32f446xx_gpio_driver.c"
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DDEBUG -I"D:/Controllers/2026/STM32/Drivers/Gpio2/stm32f446xx_gpioDrivers/Drivers/inc" -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"Drivers/src/stm32f446xx_spi_driver.d" -MT"Drivers/src/stm32f446xx_spi_driver.o" -o "Drivers/src/stm32f446xx_spi_driver.o" "../Drivers/src/stm32f446xx_spi_driver.c"
+Finished building: ../src/main.c
+Finished building: ../Drivers/src/stm32f446xx_spi_driver.c
+Finished building: ../Drivers/src/stm32f446xx_gpio_driver.c
+ 
+ 
+ 
+Building target: stm32f446xx_gpioDrivers.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T"D:/Controllers/2026/STM32/Drivers/Gpio2/stm32f446xx_gpioDrivers/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "stm32f446xx_gpioDrivers.elf" @"objects.list"   -lm
+Finished building target: stm32f446xx_gpioDrivers.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "stm32f446xx_gpioDrivers.elf" "stm32f446xx_gpioDrivers.bin"
+arm-none-eabi-size "stm32f446xx_gpioDrivers.elf"
+   text	   data	    bss	    dec	    hex	filename
+   2004	   1080	   1092	   4176	   1050	stm32f446xx_gpioDrivers.elf
+ 
+
+14:35:06 Build Finished (took 1s.129ms)
+

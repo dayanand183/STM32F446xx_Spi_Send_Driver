@@ -1,0 +1,38 @@
+/*
+ * stm32f446xx_spi_driver.h
+ *
+ *  Created on: 06-Feb-2026
+ *      Author: dayanand
+ */
+
+#ifndef INC_STM32F446XX_SPI_DRIVER_H_
+#define INC_STM32F446XX_SPI_DRIVER_H_
+
+#include "stm32f446xx.h"
+
+typedef struct
+{
+	uint8_t ;
+	uint8_t ;
+
+}SPI_Config_t;
+
+
+typedef struct
+{
+	SPI_RegDef_t SPI_RegDef;
+	SPI_Config_t SPI_Config;
+}SPI_Handle_t;
+
+
+void SPI_InIt(SPI_Handle_t *pSPIx);
+void SPI_DeInIt(SPI_RegDef_t *pSPIx);
+
+void SPI_PClockControl(SPI_RegDef_t *pSPIx, uint8_t enordis);
+
+void SPI_DataSend(void);
+void SPI_DataRecieve(void);
+
+
+
+#endif /* INC_STM32F446XX_SPI_DRIVER_H_ */

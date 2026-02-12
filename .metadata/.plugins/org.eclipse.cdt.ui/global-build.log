@@ -1,0 +1,23 @@
+13:02:59 **** Incremental Build of configuration Debug for project stm32f446xx_Drivers ****
+make -j8 all 
+Building file: ../src/main_spi.c
+Invoking: MCU GCC Compiler
+D:\Controllers\2026\STM32\Drivers\SPI\stm32f446xx_Drivers\Debug
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DDEBUG -I"D:/Controllers/2026/STM32/Drivers/SPI/stm32f446xx_Drivers/Drivers/inc" -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -MMD -MP -MF"src/main_spi.d" -MT"src/main_spi.o" -o "src/main_spi.o" "../src/main_spi.c"
+Finished building: ../src/main_spi.c
+ 
+Building target: stm32f446xx_Drivers.elf
+Invoking: MCU GCC Linker
+arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -T"D:/Controllers/2026/STM32/Drivers/SPI/stm32f446xx_Drivers/LinkerScript.ld" -Wl,-Map=output.map -Wl,--gc-sections -o "stm32f446xx_Drivers.elf" @"objects.list"   -lm
+Finished building target: stm32f446xx_Drivers.elf
+ 
+make --no-print-directory post-build
+Generating binary and Printing size information:
+arm-none-eabi-objcopy -O binary "stm32f446xx_Drivers.elf" "stm32f446xx_Drivers.bin"
+arm-none-eabi-size "stm32f446xx_Drivers.elf"
+   text	   data	    bss	    dec	    hex	filename
+   2920	   1080	   1092	   5092	   13e4	stm32f446xx_Drivers.elf
+ 
+13:03:06 **** Incremental Build of configuration Debug for project stm32f446xx_Drivers ****
+make -j8 all 
+make: Nothing to be done for 'all'.

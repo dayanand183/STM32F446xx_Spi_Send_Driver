@@ -1,0 +1,448 @@
+/*
+ * stm32f446xx_gpio_driver.c
+ *
+ *  Created on: 05-Feb-2026
+ *      Author: dayanand
+ */
+
+#if 1
+#include "stm32f446xx_gpio_driver.h"
+
+void GPIO_InIt(GPIO_Handle_t *pGPIOHandle)
+{
+	uint32_t temp = 0;
+
+	// Enable the peripheral Clock
+	GPIO_PClockControl(pGPIOHandle->pGPIOx, ENABLE);
+
+	// 1. Configure the GPIO pin mode
+	if(pGPIOHandle->GPIO_Config.Gpio_Pinmode <= GPIO_ANALOG_MODE)
+	{
+		temp = (pGPIOHandle->GPIO_Config.Gpio_Pinmode << (2 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+
+		/* Clearing the particular bit */
+		pGPIOHandle->pGPIOx->MODER &= ~(0x3 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+
+		/* Finally store the value to the register */
+		pGPIOHandle->pGPIOx->MODER |= temp;
+	}
+	else
+	{
+		// Interrupt Type
+	}
+
+	temp = 0;
+	// 2. Configure the speed of the pins
+	temp = (pGPIOHandle->GPIO_Config.Gpio_Speed << (2 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+
+	/* Clearing the particular bits */
+	pGPIOHandle->pGPIOx->OSPEEDER &= ~(0x3 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+
+	/* Finally store the value to the register */
+	pGPIOHandle->pGPIOx->OSPEEDER |= temp;
+
+	temp = 0;
+	// 3. Configure the Types of the pins
+	temp = (pGPIOHandle->GPIO_Config.Gpio_OPType << (1 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+
+	/* Clearing the particular bits */
+	pGPIOHandle->pGPIOx->OTYPER &= ~(1 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+
+	/* Finally store the value to the register */
+	pGPIOHandle->pGPIOx->OTYPER |= temp;
+
+	temp = 0;
+	// 4. Configure the Pull Up - Pull Down of the pins
+	temp = (pGPIOHandle->GPIO_Config.Gpio_PUPD << (2 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+
+	/* Clearing the particular bits */
+	pGPIOHandle->pGPIOx->PUPDR &= ~(0x3 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+
+	/* Finally store the value to the register */
+	pGPIOHandle->pGPIOx->PUPDR |= temp;
+
+	temp = 0;
+	// 5. Configure the Alternative of the pins
+	if(pGPIOHandle->GPIO_Config.Gpio_Altfun == GPIO_ALTFUN_MODE)
+	{
+		uint8_t temp1, temp2;
+		temp1 = pGPIOHandle->GPIO_Config.Gpio_PinNumber / 8;
+		temp2 = pGPIOHandle->GPIO_Config.Gpio_PinNumber % 8;
+
+		/* Clearing the particular bits */
+		pGPIOHandle->pGPIOx->AFR[temp1] &= ~(0x4 << temp2 * 2);
+
+		/* Finally store the value to the register */
+		(pGPIOHandle->pGPIOx->AFR[temp1] |= pGPIOHandle->GPIO_Config.Gpio_PinNumber << (4 * temp2));
+	}
+}
+
+void GPIO_DeInIt(GPIO_RegDef_t *pGPIOx)
+{
+	if(pGPIOx == GPIOA)
+	{
+		GPIOA_REG_RESET();
+	}
+	else if(pGPIOx == GPIOB)
+	{
+		GPIOB_REG_RESET();
+	}
+	else if(pGPIOx == GPIOC)
+	{
+		GPIOC_REG_RESET();
+	}
+	else if(pGPIOx == GPIOD)
+	{
+		GPIOD_REG_RESET();
+	}
+	else if(pGPIOx == GPIOE)
+	{
+		GPIOE_REG_RESET();
+	}
+	else if(pGPIOx == GPIOF)
+	{
+		GPIOF_REG_RESET();
+	}
+	else if(pGPIOx == GPIOG)
+	{
+		GPIOG_REG_RESET();
+	}
+	else if(pGPIOx == GPIOH)
+	{
+		GPIOH_REG_RESET();
+	}
+}
+
+void GPIO_PClockControl(GPIO_RegDef_t *pGPIOx, uint8_t enordi)
+{
+	if(enordi == ENABLE)
+	{
+		if(pGPIOx == GPIOA)
+		{
+			GPIOA_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOB)
+		{
+			GPIOB_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOC)
+		{
+			GPIOC_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOD)
+		{
+			GPIOD_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOE)
+		{
+			GPIOE_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOF)
+		{
+			GPIOF_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOG)
+		{
+			GPIOG_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOH)
+		{
+			GPIOH_PCLK_EN();
+		}
+	}
+	else
+	{
+		if(pGPIOx == GPIOA)
+		{
+			GPIOA_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOB)
+		{
+			GPIOB_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOC)
+		{
+			GPIOC_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOD)
+		{
+			GPIOD_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOE)
+		{
+			GPIOE_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOF)
+		{
+			GPIOF_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOG)
+		{
+			GPIOG_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOH)
+		{
+			GPIOH_PCLK_DIS();
+		}
+	}
+}
+
+void GPIO_OutputPort(GPIO_RegDef_t *pGPIOx, uint16_t state)
+{
+	pGPIOx->ODR |= state;
+}
+
+void GPIO_OutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber, uint8_t state)
+{
+	if(state == GPIO_PIN_SET)
+	{
+		pGPIOx->ODR |= (1<<pinNumber);
+	}
+	else
+	{
+		pGPIOx->ODR &= ~(1<<pinNumber);
+	}
+}
+
+uint16_t GPIO_InputPort(GPIO_RegDef_t *pGPIOx)
+{
+	uint16_t value;
+	value = (uint16_t)(pGPIOx->IDR);
+	return value;
+}
+
+uint8_t GPIO_InputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+{
+	uint8_t value;
+	value = (uint8_t)(pGPIOx->IDR >> PinNumber & 0x00000001);
+	return value;
+}
+
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+{
+	pGPIOx->ODR ^= (1<<PinNumber);
+}
+#endif
+
+#if 0
+#include "stm32f446xx_gpio_driver.h"
+
+
+void GPIO_InIt(GPIO_Handle_t *pGPIOHandle)
+{
+	// 1. Check for the GPIO mode
+	uint32_t temp = 0;
+
+	if(pGPIOHandle->GPIO_Config.Gpio_Pinmode <= GPIO_ANALOG_MODE)
+	{
+		temp = (pGPIOHandle->GPIO_Config.Gpio_Pinmode << (2 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+		/* Clearing the particular bit */
+		pGPIOHandle->pGPIOx->MODER &= ~(0x3 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+		/* Store the value into the register */
+		pGPIOHandle->pGPIOx->MODER |= temp;
+	}
+	else
+	{
+		// interrupt mode
+	}
+
+	temp=0;
+	// 2. Configure the GPIO speed
+	temp = (pGPIOHandle->GPIO_Config.Gpio_Speed << (2 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+	/* Clearing the particular bit */
+	pGPIOHandle->pGPIOx->OSPEEDER &= ~(0x3 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+	/* Store the value into the register */
+	pGPIOHandle->pGPIOx->OSPEEDER |= temp;
+
+	temp = 0;
+	// 3. Configure the Pull up Pull Down pins
+	temp = (pGPIOHandle->GPIO_Config.Gpio_PUPD << (2 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+	/* Clearing the particular bit */
+	pGPIOHandle->pGPIOx->PUPDR &= ~(0x3 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+	/* Store the value into the register */
+	pGPIOHandle->pGPIOx->PUPDR |= temp;
+
+	temp = 0;
+	// 4. Configure the GPIO type
+	temp = (pGPIOHandle->GPIO_Config.Gpio_OPType << (1 * pGPIOHandle->GPIO_Config.Gpio_PinNumber));
+	/* Clearing the particular bit */
+	pGPIOHandle->pGPIOx->OTYPER &= ~(0x1 << pGPIOHandle->GPIO_Config.Gpio_PinNumber);
+	/* Store the value into the register */
+	pGPIOHandle->pGPIOx->OTYPER |= temp;
+
+	temp = 0;
+	// 5. Configure the Alternate pins
+	if(pGPIOHandle->GPIO_Config.Gpio_Altfun == GPIO_ALTFUN_MODE)
+	{
+		uint8_t temp1, temp2;
+		temp1 = pGPIOHandle->GPIO_Config.Gpio_PinNumber / 8;
+		temp2 = pGPIOHandle->GPIO_Config.Gpio_PinNumber % 8;
+
+		/* Clearing the particular bit */
+		pGPIOHandle->pGPIOx->AFR[temp1] &= ~(0x4 << (4 * temp2));
+		/* Store the value into the register */
+		(pGPIOHandle->pGPIOx->AFR[temp1] |= pGPIOHandle->GPIO_Config.Gpio_Altfun << (4 * temp2));
+	}
+
+}
+
+void GPIO_DeInIt(GPIO_RegDef_t *pGPIOx)
+{
+	if(pGPIOx == GPIOA)
+	{
+		GPIOA_REG_RESET();
+	}
+	else if(pGPIOx == GPIOB)
+	{
+		GPIOB_REG_RESET();
+	}
+	else if(pGPIOx == GPIOC)
+	{
+		GPIOC_REG_RESET();
+	}
+	else if(pGPIOx == GPIOD)
+	{
+		GPIOD_REG_RESET();
+	}
+	else if(pGPIOx == GPIOE)
+	{
+		GPIOE_REG_RESET();
+	}
+	else if(pGPIOx == GPIOF)
+	{
+		GPIOF_REG_RESET();
+	}
+	else if(pGPIOx == GPIOG)
+	{
+		GPIOG_REG_RESET();
+	}
+	else if(pGPIOx == GPIOH)
+	{
+		GPIOH_REG_RESET();
+	}
+}
+
+void GPIO_PClockControl(GPIO_RegDef_t *pGPIOx, uint8_t enordi)
+{
+	if(enordi == ENABLE)
+	{
+		if(pGPIOx == GPIOA)
+		{
+			GPIOA_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOB)
+		{
+			GPIOB_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOC)
+		{
+			GPIOC_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOD)
+		{
+			GPIOD_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOE)
+		{
+			GPIOE_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOF)
+		{
+			GPIOF_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOG)
+		{
+			GPIOG_PCLK_EN();
+		}
+		else if(pGPIOx == GPIOH)
+		{
+			GPIOH_PCLK_EN();
+		}
+	}
+	else
+	{
+		if(pGPIOx == GPIOA)
+		{
+			GPIOA_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOB)
+		{
+			GPIOB_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOC)
+		{
+			GPIOC_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOD)
+		{
+			GPIOD_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOE)
+		{
+			GPIOE_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOF)
+		{
+			GPIOF_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOG)
+		{
+			GPIOG_PCLK_DIS();
+		}
+		else if(pGPIOx == GPIOH)
+		{
+			GPIOH_PCLK_DIS();
+		}
+	}
+
+}
+
+void GPIO_OutputPort(GPIO_RegDef_t *pGPIOx, uint16_t state)
+{
+	pGPIOx->ODR |= state;
+}
+
+void GPIO_OutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber, uint8_t state)
+{
+	if(state == GPIO_PIN_SET)
+	{
+		pGPIOx->ODR |= (1<<pinNumber);
+	}
+	else
+	{
+		pGPIOx->ODR &= ~(1<<pinNumber);
+	}
+
+}
+
+uint16_t GPIO_InputPort(GPIO_RegDef_t *pGPIOx)
+{
+	uint16_t value;
+	value = (uint16_t)(pGPIOx->IDR);
+	return value;
+}
+
+uint8_t GPIO_InputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+{
+	uint8_t value;
+	value = (uint8_t)((pGPIOx->IDR >> PinNumber) & 0x00000001);
+	return value;
+}
+
+void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber)
+{
+	pGPIOx->ODR ^= (1<<PinNumber);
+}
+
+//void GPIO_IRQHandler(void)
+//{
+//
+//}
+//
+//void GPIO_IRQEnable(void)
+//{
+//
+//}
+
+#endif
+
